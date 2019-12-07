@@ -11,8 +11,9 @@ int DEG = -1; // Global variable for degree
 // A B+Tree node 
 class Node {
 
-	int *key; // An array of keys 
+	int *key; // An array of keys
 	string* value; // NULL if node is leaf, otherwise an array of strings containing values corresponding to the keys in this node
+	Node *parent;
 	Node **children; // An array of child pointers
 	int size;	 // Current number of keys 
 	bool isLeaf; // Is true when node is leaf. Otherwise false 
@@ -46,6 +47,8 @@ class BPlusTree{
 
 		// function to delete node containing particular key
 		void remove(int k); 
+
+		
 };
 
 #endif
