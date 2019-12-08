@@ -392,16 +392,40 @@ void BPlusTree::insert(int k){
 
 void BPlusTree::remove(int k){
    // traverse to the leaf which contains the key
-   Node *keyNode = search(k); // search returns the leaf by itself
-   // return if the key does not exist
-   // traverse the node 
-   int i=0;
-   while (keyNode->key[i]!=k) i++;
-   // remove the key by moving all keys 1 step back and decreasing size by 1
-   for (int j=i; j<keyNode->size-1; j++){
-      keyNode->key[j] = keyNode->key[j+1];
+   // ****************************************************
+   // put in comments cz more generalized form implemented
+   // **************************************************
+   // Node *keyNode = search(k); // search returns the leaf by itself
+   // // return if the key does not exist
+   // // traverse the node 
+   // int i=0;
+   // while (keyNode->key[i]!=k) i++;
+   // // remove the key by moving all keys 1 step back and decreasing size by 1
+   // for (int j=i; j<keyNode->size-1; j++){
+   //    keyNode->key[j] = keyNode->key[j+1];
+   // }
+   // keyNode->size--;
+
+   //  remove from all levels without refactoring
+   bool Leaf = root->isLeaf;
+   Node *node = root;
+   while (true)
+   {  
+      int i=0;
+      while (k>node->key[i] && i<node->size) i++;
+      if (k == node->key[i]){
+         // remove the key
+         // remove the key by moving all keys 1 step back and decreasing size by 1
+         for (int j=i; j<node->size-1; j++){
+            node->key[j] = node->key[j+1];
+         }
+         node->size--;
+      }
+      if (node->isLeaf) break;
+      node = node->children[i]; // might be a problem here
    }
-   keyNode->size--;
+
+
    
 
 } 
