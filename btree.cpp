@@ -5,12 +5,14 @@
 #include "btree.h"
 #include <algorithm>
 #include <iostream>
+#include "stdlib.h"
 using namespace std; 
 
 Node::Node(){
 
    key = new int[DEG];
    children = new Node*[DEG+1];
+   size = 0;
 
    // initialize the children as NULL;
    for (int i=0; i<DEG+1; i++){
@@ -50,6 +52,24 @@ void BPlusTree::traverse(Node* cursor){
       }
    }
 }
+bool BPlusTree::search(int k){
+   bool Leaf = root->isLeaf;
+   Node *node = root;
+   while (true)
+   {  
+      int i=0;
+      while (k>node->key[i] && i<node->size) i++;
+      if (k == node->key[i]) return true;
+      if (node->isLeaf) break;
+      node = node->children[i]; // might be a problem here
+   }
+   return false;
+
+   // start with root
+   // traverse keys and check if element is present adn return true
+   // if not, access children
+   // if its a leaf, return false
+} 
 
 void BPlusTree::insert(int k){
 
@@ -148,7 +168,7 @@ void BPlusTree::insert(int k){
       // traverse it untill you find a value bigger than k
       bool isKeyInserted = false;
       while (!isKeyInserted){
-         std::cout << "the while loop" << endl;
+         // std::cout << "the while loop" << endl;
          int i=0;
          while (k > currentNode->key[i] && i<currentNode->size) i++;
          int childToInsert = i; // save the place number of child that we are going to split, will use it later         
@@ -156,10 +176,10 @@ void BPlusTree::insert(int k){
          currentNode = currentNode->children[childToInsert];
          // if the child is a leaf
          if (currentNode->isLeaf){
-            std::cout << "if the child is a leaf" << endl;
+            // std::cout << "if the child is a leaf" << endl;
             // if its not full just insert the key
             if (currentNode->size < DEG-1){
-               std::cout << "if the child is not full" << endl;
+               // std::cout << "if the child is not full" << endl;
                // just insert the damn key
                currentNode->size++; // increase size
                currentNode->key[currentNode->size-1] = -1; // just to be safe from garbage value
@@ -173,7 +193,7 @@ void BPlusTree::insert(int k){
             }
             // else if child is full, insert and split and move value up
             else{
-               std::cout << "if the child is full" << endl;
+               // std::cout << "if the child is full" << endl;
                // insert the key
                currentNode->size++; // increase size
                currentNode->key[currentNode->size-1] = -1; // just to be safe from garbage value
@@ -189,7 +209,7 @@ void BPlusTree::insert(int k){
                // initialize two new nodes
                Node *left = new Node;
                Node *right = new Node;
-               std::cout << "have split the node" << endl;
+               // std::cout << "have split the node" << endl;
 
                // figure out size of the nodes and assign it
                int splitSize = currentNode->size/2;
@@ -213,58 +233,43 @@ void BPlusTree::insert(int k){
                left->parent = currentNode->parent;
                right->parent = currentNode->parent;
 
-               std::cout << "only the child to parent shit left" << endl;
+               // std::cout << "only the child to parent shit left" << endl;
                
                // delete the useless node and access current node's parent
                // Node* uselessNode;
                // uselessNode = currentNode;
                currentNode = currentNode->parent;
-               std::cout << "parent is accessible" << endl;
+               // std::cout << "parent is accessible" << endl;
                // delete uselessNode;
                // move the middle key (first val on right) to parent
                int keyToMove = right->key[0];
-               std::cout << "well id be damned" << endl;
+               // std::cout << "well id be damned" << endl;
                // insert the key
                currentNode->size++; // increase size
-               std::cout << "no way" << endl;
+               // std::cout << "no way" << endl;
                currentNode->key[currentNode->size-1] = -1; // just to be safe from garbage value
-               std::cout << "cannot happen" << endl;
+               // std::cout << "cannot happen" << endl;
                // make space for the new key
                i=0;
-               std::cout << "wtf" << endl;
+               // std::cout << "wtf" << endl;
                while (keyToMove > currentNode->key[i] && i<currentNode->size-1) i++;
-               std::cout << "position of key has been determined" << endl;
+               // std::cout << "position of key has been determined" << endl;
                for (int j=currentNode->size-1; j>i; j--){
-                  std::cout << "initiating swap" << endl;
+                  // std::cout << "initiating swap" << endl;
                   swap(currentNode->key[j], currentNode->key[j-1]);
                }
-               std::cout << "swap done" << endl;
+               // std::cout << "swap done" << endl;
                currentNode->key[i] = keyToMove;
-               std::cout << "i think the swap failed" << endl;
+               // std::cout << "i think the swap failed" << endl;
 
                
-               // assign the children according to order
-               // i=0;
-               // while (keyToMove > currentNode->key[i] && i<currentNode->size-1) i++;
-               // // move every pointer two places forward
-               // for (int j=keyToMove; j<currentNode->size+1; j++){ // goes to size cz current pts = keys+1
-               //    Node *temp;
-               //    temp = currentNode->children[j];
-               //    currentNode->children[j] = currentNode->children[j+2];
-               //    currentNode->children[j+2] = temp;
-               //    temp = NULL; delete temp;
-               //    // swap(currentNode->children[j], currentNode->children[j-2]);
-               // }
-               std::cout << "assigning children to the slip node's parent" << endl;
+              
+               // std::cout << "assigning children to the slip node's parent" << endl;
                currentNode->children[childToInsert] = left;
                for (int j=currentNode->size+1; j>childToInsert+1; j--){
                   currentNode->children[j] = currentNode->children[j-1]; // move each child one forward
                }
                currentNode->children[childToInsert+1] = right;
-
-               // currentNode->children[2] = left;
-               // currentNode->children[3] = right;
-
 
                // delete left and right pointers
                left = NULL; right = NULL;
@@ -272,7 +277,7 @@ void BPlusTree::insert(int k){
 
             }              
             isKeyInserted = true;
-            std::cout << "end of the while loop" << endl;
+            // std::cout << "end of the while loop" << endl;
          }
       }
             
@@ -284,9 +289,7 @@ void BPlusTree::insert(int k){
 
 
 
-Node* BPlusTree::search(int k){
-   // Your code here
-} 
+
 
 void BPlusTree::remove(int k){
    // Your code here

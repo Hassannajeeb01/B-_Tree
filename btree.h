@@ -43,10 +43,12 @@ class BPlusTree{
 		void insert(int k); 
 
 		// function to search a key in this tree 
-		Node* search(int k); 
+		bool search(int k); 
 
 		// function to delete node containing particular key
 		void remove(int k); 
+
+		Node* searchHelper(int k, Node* node);
 
 		
 };
