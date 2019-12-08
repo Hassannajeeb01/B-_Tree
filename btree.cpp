@@ -52,18 +52,18 @@ void BPlusTree::traverse(Node* cursor){
       }
    }
 }
-bool BPlusTree::search(int k){
+Node* BPlusTree::search(int k){
    bool Leaf = root->isLeaf;
    Node *node = root;
    while (true)
    {  
       int i=0;
       while (k>node->key[i] && i<node->size) i++;
-      if (k == node->key[i]) return true;
+      if (k == node->key[i]) return node;
       if (node->isLeaf) break;
       node = node->children[i]; // might be a problem here
    }
-   return false;
+   return NULL;
 
    // start with root
    // traverse keys and check if element is present adn return true
