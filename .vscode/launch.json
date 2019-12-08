@@ -4,14 +4,16 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
-
         {
-            "name": "(gdb) Attach",
+            "name": "(gdb) Launch",
             "type": "cppdbg",
-            "request": "attach",
-            "program": "${workspaceFolder}/btree.cpp",
-            "processId": "${command:pickProcess}",
+            "request": "launch",
+            "program": "${workspaceFolder}/a.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "C:\\MinGW\bin",
             "setupCommands": [
@@ -21,17 +23,6 @@
                     "ignoreFailures": true
                 }
             ]
-        },
-        {
-            "name": "(Windows) Launch",
-            "type": "cppvsdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/a.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false
         }
     ]
 }

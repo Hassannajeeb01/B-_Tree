@@ -2,11 +2,20 @@
 #include <iostream>
 
 int main() {
-    BPlusTree tree1(3);
-    tree1.insert(1); 
-    tree1.insert(3);
-    tree1.insert(2);
+    cout << "Enter degree\n";
+    int x;
+    cin >> x;
+    BPlusTree tree1(x);
 
+    cout << "Enter keys to enter. Enter -1 when done\n";
+    
+    int y;
+    while (true){
+        cin >> y;
+        if (y==-1) break;
+        tree1.insert(y);
+        cout << tree1.display() << endl;
+    }
     cout << tree1.display();
 
     
