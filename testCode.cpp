@@ -59,7 +59,7 @@ Node* BPlusTree::search(int k){
    {  
       int i=0;
       while (k>node->key[i] && i<node->size) i++;
-      if (k == node->key[i] && node->isLeaf) return node;
+      if (k == node->key[i]) return node;
       if (node->isLeaf) break;
       node = node->children[i]; // might be a problem here
    }
@@ -284,84 +284,7 @@ void BPlusTree::insert(int k){
             // check if the node is overloaded
             if (currentNode->size >= DEG){   // should remove the >
                // if its a root
-               if (currentNode->parent == NULL){
-                  cout << "The node is a root" << endl;
-                  // split the node...
-
-                  // initialize two new nodes
-                  Node *left = new Node;
-                  Node *right = new Node;
-
-
-                  // figure out size of the nodes and assign it
-                  int splitSize = currentNode->size/2;
-                  left->size = splitSize;
-                  right->size = splitSize + currentNode->size%2 -1; // if odd, right side gets the extra value
                   
-                  // assign the keys
-                  for (int i=0; i<splitSize; i++){
-                     left->key[i] = currentNode->key[i];
-                     cout << "assigned to left child" << currentNode->key[i] << endl;
-                  }
-                  // assign right child keys according to order
-                  for (int i=1; i<(splitSize + currentNode->size%2); i++){ // add 1 since mid value moves up
-                     right->key[i-1] = currentNode->key[i+splitSize];// skip 1 since mid value moves up
-                     cout << "assigned to right child" << currentNode->key[i+splitSize] << endl;
-                  }
-                  int rootKey = currentNode->key[splitSize];
-                  cout << "assigned to the new root" << currentNode->key[splitSize] << endl;
-                  // assign children to the left n right child
-                  int leftChildSplitSize = (currentNode->size+1)/2;
-                  int rightChildSplitSize = (currentNode->size+1)/2 + (currentNode->size+1)%2;
-
-
-                  for (int i=0; i<leftChildSplitSize; i++){
-                     left->children[i] = currentNode->children[i];
-                     cout << "assigned child to left has first key and size" 
-                     << currentNode->children[i]->key[0] << currentNode->children[i]->size << endl;
-                  }
-                  for (int i=0; i<rightChildSplitSize; i++){
-                     right->children[i] = currentNode->children[i+rightChildSplitSize];
-                     cout << "assigned child to right has first key and size" 
-                     << currentNode->children[i+rightChildSplitSize]->key[0]
-                     << currentNode->children[i+rightChildSplitSize]->size << endl;
-                  }
-                  // isLeaf
-                  left->isLeaf = false;
-                  right->isLeaf = false;
-                  currentNode->isLeaf = false;
-
-                 
-
-                  // re initialize the parent by making size =1
-                  Node *newRoot = new Node;
-                  currentNode = newRoot;
-                  currentNode->size = 1;
-                  currentNode->key[0] = rootKey;
-
-                   // assign the parent
-                  left->parent = currentNode;
-                  right->parent = currentNode;
-
-
-                  // assign children to the parent (current node)
-                  currentNode->children[0] = left;
-                  currentNode->children[1] = right;
-
-                  // finally, make the current node the root node
-                  root = currentNode;
-                  // carry the middle value up NO NEED NOW
-                  // currentNode->key[0] = right->key[0]; // cz right takes the middle value
-
-                  // delete the temporary keys
-                  left = NULL; right = NULL;
-                  delete left, right;
-
-                  // since all work is finally done
-                  isKeyInserted = true;
-                  cout << "key has been inserted" << endl;
-
-               }
                // else if its internal
                // split the node
 
@@ -391,18 +314,6 @@ void BPlusTree::insert(int k){
 
 
 void BPlusTree::remove(int k){
-   // traverse to the leaf which contains the key
-   Node *keyNode = search(k); // search returns the leaf by itself
-   // return if the key does not exist
-   // traverse the node 
-   int i=0;
-   while (keyNode->key[i]!=k) i++;
-   // remove the key by moving all keys 1 step back and decreasing size by 1
-   for (int j=i; j<keyNode->size-1; j++){
-      keyNode->key[j] = keyNode->key[j+1];
-   }
-   keyNode->size--;
-   
-
+   // Your code here
 } 
 #endif

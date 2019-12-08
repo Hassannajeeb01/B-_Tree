@@ -18,6 +18,7 @@ bool isEqual(string s1, string s2){
 // Driver program to test above functions 
 int main() 
 { 
+	string output, expected;
 	int marks = 0;
 	// BPlusTree tree1(3);
 	// tree1.insert(1); 
@@ -39,26 +40,26 @@ int main()
 	// else
 	// 	cout << "Insert incorrect" << endl;
 	
-	// BPlusTree tree2(4);
-	// tree2.insert(1); 
-	// tree2.insert(5); 
-	// tree2.remove(1);
-	// tree2.remove(5);
-	// tree2.insert(11);
-	// tree2.insert(9);
-	// tree2.insert(3);
-	// tree2.insert(10);
-	// tree2.insert(6);
-	// tree2.insert(12);
-	// tree2.remove(9);
-	// output = tree2.display();
-	// expected = "{10} {3}{6} {10}{11}{12} ";
-	// if(isEqual(output, expected)){
-	// 	cout << "Remove correct" << endl;
-	// 	marks+=40;
-	// }
-	// else
-	// 	cout << "Remove incorrect" << endl;
+	BPlusTree tree2(4);
+	tree2.insert(1); 
+	tree2.insert(5); 
+	tree2.remove(1);
+	tree2.remove(5);
+	tree2.insert(11);
+	tree2.insert(9);
+	tree2.insert(3);
+	tree2.insert(10);
+	tree2.insert(6);
+	tree2.insert(12);
+	tree2.remove(9);
+	output = tree2.display();
+	expected = "{10} {3}{6} {10}{11}{12} ";
+	if(isEqual(output, expected)){
+		cout << "Remove correct" << endl;
+		marks+=40;
+	}
+	else
+		cout << "Remove incorrect" << endl;
 
 	BPlusTree tree3(5);
 	tree3.insert(1); 
