@@ -311,6 +311,8 @@ void BPlusTree::insert(int k){
                   int rootKey = currentNode->key[splitSize];
                   cout << "assigned to the new root" << currentNode->key[splitSize] << endl;
                   // assign children to the left n right child
+                  cout << "the size, element of the current node is " << currentNode->size << " " 
+                  << currentNode->key[0] << endl;
                   int leftChildSplitSize = (currentNode->size+1)/2;
                   int rightChildSplitSize = (currentNode->size+1)/2 + (currentNode->size+1)%2;
 
